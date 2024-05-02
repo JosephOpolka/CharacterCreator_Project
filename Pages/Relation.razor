@@ -1,0 +1,39 @@
+@page "/relation"
+@using CharacterCreator_Project.Models
+
+<html>
+    <h1>Create Relationship</h1>
+    <body>
+        <form id="relation_form">
+            <label for="character_id_1">Character 1 ID:</label>
+            <input type="text" id="character_id_1" @bind="@RelationModel.CharacterId1" @oninput="e => TryFetchCharacterDetails(e.Value.ToString(), true)">
+
+            <label for="character_id_2">Character 2 ID:</label>
+            <input type="text" id="character_id_2" @bind="@RelationModel.CharacterId2" @oninput="e => TryFetchCharacterDetails(e.Value.ToString(), false)">
+
+            <label for="relationship_status">Relationship Status:</label>
+            <select id="relationship_status" @bind="RelationModel.RelationshipStatus">
+                <option>Unaquainted</option>
+                <option>Family</option>
+                <option>Friends</option>
+                <option>Dating</option>
+                <option>Married</option>
+                <option>Parents</option>
+                <option>Enemies</option>
+                <option>Exes</option>
+            </select>
+        </form>
+        <div class="characters">
+            <div class="character_data">
+                <img src="@RelationModel.CharacterImage1" alt="Profile Picture 1" />
+                <p class="character_name">@RelationModel.CharacterName1</p>
+            </div>
+            <div class="character_data">
+                <img src="@RelationModel.CharacterImage2" alt="Profile Picture 2" />
+                <p class="character_name">@RelationModel.CharacterName2</p>
+            </div>
+        </div>
+        <button type="button" @onclick="AddRelationship">Submit</button>
+        <p id="result">@Message</p>
+    </body>
+</html>

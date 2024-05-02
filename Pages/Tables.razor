@@ -1,0 +1,93 @@
+@page "/tables"
+
+<h1>Tables</h1>
+<select @onchange="SelectionChanged">
+    <option value="Characters">Characters</option>
+    <option value="Relationships">Relationships</option>
+</select>
+
+@if (currentSelection == "Characters" && Characters != null)
+{
+    <div class="table_display">
+        <table>
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Character ID</th>
+                    <th>Name</th>
+                    <th>Date of Birth</th>
+                    <th>Gender</th>
+                    <th>Height</th>
+                    <th>Race</th>
+                    <th>Hair Color</th>
+                    <th>Eye Color</th>
+                    <th>Favorite Color</th>
+                    <th>Occupation</th>
+                    <th>Hobbies</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var entry in Characters)
+            {
+                <tr>
+                    <td><img src="@GetImagePath(entry.FavoriteColor)" alt="Profile Picture" /></td>
+                    <td>@entry.CharacterId</td>
+                    <td>@entry.Name</td>
+                    <td>@entry.DateOfBirth</td>
+                    <td>@entry.Gender</td>
+                    <td>@entry.Height</td>
+                    <td>@entry.Race</td>
+                    <td>@entry.HairColor</td>
+                    <td>@entry.EyeColor</td>
+                    <td>@entry.FavoriteColor</td>
+                    <td>@entry.Occupation</td>
+                    <td>@entry.Hobbies</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}
+else if (currentSelection == "Relationships" && Relationships != null)
+{
+    <div class="table_display">
+        <table>
+            <thead>
+                <tr>
+                    <th>Relationship ID</th>
+                    <th>Character 1 ID</th>
+                    <th>Character 2 ID</th>
+                    <th>Relationship Status</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var relationship in Relationships)
+            {
+                <tr>
+                    <td>@relationship.RelationshipId</td>
+                    <td>@relationship.CharacterId1</td>
+                    <td>@relationship.CharacterId2</td>
+                    <td>@relationship.RelationshipStatus</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}
+
+@code {
+    private string currentSelection = "Characters";  // Default selection
+
+    private async Task SelectionChanged(ChangeEventArgs e)
+    {
+        currentSelection = e.Value.ToString();
+        if (currentSelection == "Characters")
+        {
+            await RetrieveCharacters();
+        }
+        else if (currentSelection == "Relationships")
+        {
+            await RetrieveRelationships();
+        }
+    }
+}

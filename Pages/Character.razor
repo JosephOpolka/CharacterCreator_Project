@@ -1,0 +1,82 @@
+@page "/character"
+@using CharacterCreator_Project.Models
+
+<html>
+    <h1>Create Character</h1>
+    <body>
+        <form id="character_form" @onsubmit="AddCharacter">
+            <label for="name">Name:</label>
+            <input type="text" id="name" @bind="character.Name">
+
+            <label for="date_of_birth">DOB:</label>
+            <input type="text" id="date_of_birth" @bind="character.DateOfBirth">
+
+            <label for="gender">Gender:</label>
+            <select id="gender" @bind="character.Gender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <label for="height">Height:</label>
+            <input type="text" id="height" @bind="character.Height">
+
+            <label for="race">Race:</label>
+            <input type="text" id="race" @bind="character.Race">
+
+            <label for="hair_color">Hair Color:</label>
+            <select id="hair_color" @bind="character.HairColor">
+                <option value="Blonde">Blonde</option>
+                <option value="Black">Black</option>
+                <option value="Brown">Brown</option>
+                <option value="Red">Red</option>
+                <option value="White">White</option>
+            </select>
+
+            <label for="eye_color">Eye Color:</label>
+            <select id="eye_color" @bind="character.EyeColor">
+                <option value="Blue">Blue</option>
+                <option value="Green">Green</option>
+                <option value="Brown">Brown</option>
+                <option value="Hazel">Hazel</option>
+            </select>
+
+            <label for="favorite_color">Favorite Color:</label>
+            <select id="favorite_color" @bind-value="character.FavoriteColor" @bind-value:event="oninput" @onchange="OnColorChanged">
+                <option value="Red">Red</option>
+                <option value="Orange">Orange</option>
+                <option value="Yellow">Yellow</option>
+                <option value="Green">Green</option>
+                <option value="Teal">Teal</option>
+                <option value="Blue">Blue</option>
+                <option value="Purple">Purple</option>
+                <option value="Pink">Pink</option>
+                <option value="Black">Black</option>
+            </select>
+
+            <label for="occupation">Occupation:</label>
+            <input type="text" id="occupation" @bind="character.Occupation">
+
+            <label for="hobbies">Hobbies:</label>
+            <input type="text" id="hobbies" @bind="character.Hobbies">
+
+            <button type="submit">Submit</button>
+        </form>
+        <img src="@GetImagePath()" alt="Profile Picture" />
+        <p id="result">@Message</p>
+    </body>
+</html>
+
+@code {
+    string selectedColor = "";
+
+    private void OnColorChanged(ChangeEventArgs e)
+    {
+        selectedColor = e.Value.ToString();
+    }
+
+    private string GetImagePath()
+    {
+        return string.IsNullOrEmpty(selectedColor) ? "pfp/PFP.png" : $"pfp/PFP_{selectedColor}.png";
+    }
+}
